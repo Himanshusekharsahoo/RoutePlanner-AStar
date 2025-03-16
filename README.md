@@ -5,18 +5,18 @@ This project implements a **route planning application** using the **A* search a
 ---
 
 ## 📌 Table of Contents
-1. [Features](#features)
-2. [Tech Stack](#tech-stack)
-3. [Requirements](#requirements)
-4. [Installation](#installation)
-5. [Usage](#usage)
-6. [Example](#example)
-7. [Project Structure](#project-structure)
-8. [Dependencies](#dependencies)
-9. [Contributing](#contributing)
-10. [License](#license)
-11. [Acknowledgments](#acknowledgments)
-12. [Contact](#contact)
+1. [Features](#-features)
+2. [Tech Stack](#-tech-stack)
+3. [Requirements](#-requirements)
+4. [Installation](#-installation)
+5. [Usage](#-usage)
+6. [Example](#-example)
+7. [Project Structure](#-project-structure)
+8. [Dependencies](#-dependencies)
+9. [Contributing](#-contributing)
+10. [License](#-license)
+11. [Acknowledgments](#-acknowledgments)
+12. [Contact](#-contact)
 
 ---
 
@@ -56,52 +56,53 @@ To build and run this project, you need:
 ```bash
 git clone https://github.com/Himanshusekharsahoo/RoutePlanner-AStar.git
 cd RoutePlanner-AStar
-Step 2: Install Dependencies (Using vcpkg)
-bash
-Copy
-Edit
+```
+
+### Step 2: Install Dependencies (Using vcpkg)
+```bash
 vcpkg install cairo io2d pugixml
 vcpkg integrate install
-Step 3: Build the Project with CMake
-bash
-Copy
-Edit
+```
+
+### Step 3: Build the Project with CMake
+```bash
 mkdir build
 cd build
 cmake .. -DCMAKE_TOOLCHAIN_FILE=[path-to-vcpkg]/scripts/buildsystems/vcpkg.cmake
 cmake --build .
+```
 
-▶️ Usage
-Download an OpenStreetMap (.osm) file for the region you want to use. You can get it from OpenStreetMap.
-Run the program with the OSM file:
-bash
-Copy
-Edit
+---
+
+## ▶️ Usage
+1. Download an OpenStreetMap (`.osm`) file for the region you want to use. You can get it from [OpenStreetMap](https://www.openstreetmap.org/).
+2. Run the program with the OSM file:
+```bash
 ./OSM_A_star_search -f path/to/map.osm
-Enter start and end coordinates when prompted:
-sql
-Copy
-Edit
+```
+3. Enter start and end coordinates when prompted:
+```bash
 Enter start and end points (start_x start_y end_x end_y): 0.1 0.1 0.9 0.9
-View the computed shortest path on the map.
+```
+4. View the computed shortest path on the map.
 
-🌍 Example: Bhubaneswar, India
-Download the Bhubaneswar map from OpenStreetMap.
-Run the program:
-bash
-Copy
-Edit
+---
+
+## 🌍 Example: Bhubaneswar, India
+1. Download the Bhubaneswar map from OpenStreetMap.
+2. Run the program:
+```bash
 ./OSM_A_star_search -f bhubaneswar.osm
-Enter start and end coordinates (e.g., Railway Station to OUAT College):
-sql
-Copy
-Edit
+```
+3. Enter start and end coordinates (e.g., Railway Station to OUAT College):
+```bash
 Enter start and end points (start_x start_y end_x end_y): 0.30 0.77 0.28 0.59
+```
 
-📂 Project Structure
-python
-Copy
-Edit
+---
+
+## 📂 Project Structure
+```
 RoutePlanner-AStar/
 ├── CMakeLists.txt          # CMake build configuration
 ├── map.osm                 # OpenStreetMap data file
@@ -128,28 +129,39 @@ RoutePlanner-AStar/
     ├── Debug/              # Debug build output
     │   └── OSM_A_star_search.exe  # Executable file
     └── ...                 # Other build-related files
+```
 
-📌 Dependencies
-io2d → For rendering maps.
-pugixml → For parsing OpenStreetMap data.
-vcpkg → For managing dependencies.
+---
 
-🤝 Contributing
+## 📝 Dependencies
+- **io2d** → For rendering maps.
+- **pugixml** → For parsing OpenStreetMap data.
+- **vcpkg** → For managing dependencies.
+
+---
+
+## 🤝 Contributing
 Contributions are welcome! If you'd like to contribute:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Submit a pull request with a clear description.
 
-Fork the repository.
-Create a new branch for your feature or bug fix.
-Submit a pull request with a clear description.
+---
 
-📜 License
-This project is licensed under the MIT License. See the LICENSE file for details.
+## 💌 License
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
 
-🙏 Acknowledgments
-OpenStreetMap for providing the map data.
-io2d for rendering support.
-A Algorithm* for pathfinding.
+---
 
-📬 Contact
+## 🙏 Acknowledgments
+- **OpenStreetMap** for providing the map data.
+- **io2d** for rendering support.
+- **A* Algorithm** for pathfinding.
+
+---
+
+## 📩 Contact
 For questions or feedback, reach out:
-GitHub: Himanshusekharsahoo
-Email: work.himanshuse@gmail.com
+- **GitHub**: [Himanshusekharsahoo](https://github.com/Himanshusekharsahoo)
+- **Email**: work.himanshuse@gmail.com
+- 
