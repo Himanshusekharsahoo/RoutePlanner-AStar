@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "-o", "route_planner",
+                "src/main.cpp",
+                "src/model.cpp",
+                "src/route_model.cpp",
+                "src/route_planner.cpp",
+                "src/render.cpp",
+                "-IC:/Users/HP/Desktop/vcpkg/installed/x64-windows/include",
+                "-LC:/Users/HP/Desktop/vcpkg/installed/x64-windows/lib",
+                "-lio2d",
+                "-lcairo"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task by VS Code"
+        }
+    ]
+}
