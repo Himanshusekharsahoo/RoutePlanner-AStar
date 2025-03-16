@@ -70,6 +70,7 @@ mkdir build
 cd build
 cmake .. -DCMAKE_TOOLCHAIN_FILE=[path-to-vcpkg]/scripts/buildsystems/vcpkg.cmake
 cmake --build .
+
 ▶️ Usage
 Download an OpenStreetMap (.osm) file for the region you want to use. You can get it from OpenStreetMap.
 Run the program with the OSM file:
@@ -83,6 +84,7 @@ Copy
 Edit
 Enter start and end points (start_x start_y end_x end_y): 0.1 0.1 0.9 0.9
 View the computed shortest path on the map.
+
 🌍 Example: Bhubaneswar, India
 Download the Bhubaneswar map from OpenStreetMap.
 Run the program:
@@ -95,6 +97,7 @@ sql
 Copy
 Edit
 Enter start and end points (start_x start_y end_x end_y): 0.30 0.77 0.28 0.59
+
 📂 Project Structure
 python
 Copy
@@ -125,16 +128,19 @@ RoutePlanner-AStar/
     ├── Debug/              # Debug build output
     │   └── OSM_A_star_search.exe  # Executable file
     └── ...                 # Other build-related files
+
 📌 Dependencies
 io2d → For rendering maps.
 pugixml → For parsing OpenStreetMap data.
 vcpkg → For managing dependencies.
+
 🤝 Contributing
 Contributions are welcome! If you'd like to contribute:
 
 Fork the repository.
 Create a new branch for your feature or bug fix.
 Submit a pull request with a clear description.
+
 📜 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
@@ -142,8 +148,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 OpenStreetMap for providing the map data.
 io2d for rendering support.
 A Algorithm* for pathfinding.
+
 📬 Contact
 For questions or feedback, reach out:
-
 GitHub: Himanshusekharsahoo
 Email: work.himanshuse@gmail.com
