@@ -1,5 +1,6 @@
 #include "route_model.h"
 #include <iostream>
+#include <algorithm>
 
 RouteModel::RouteModel(const std::vector<std::byte>& xml) : Model(xml) {
     // Create RouteModel nodes from the base Model nodes
@@ -31,38 +32,82 @@ void RouteModel::CreateNodeToRoadHashmap() {
 }
 
 /**
- * Finds a neighboring node from a list of node indices.
- * @param node_indices The list of node indices to search.
- * @return A pointer to the closest neighboring node, or nullptr if none is found.
+ * Finds an adjacent neighbor node from a list of node indices for a road way.
+ * Connects immediate predecessor or successor to preserve topological adjacency.
+ * @param node_indices The list of node indices representing an OSM way.
+ * @return A pointer to an adjacent neighboring node, or nullptr if none is found.
  */
 RouteModel::Node* RouteModel::Node::FindNeighbor(const std::vector<int>& node_indices) {
-    Node* closest_node = nullptr;  // Pointer to the closest node
-    Node node;  // Temporary node for distance calculations
-
-    for (int node_index : node_indices) {
-        node = parent_model->SNodes()[node_index];  // Get the node from the parent model
-        // Check if the node is not the current node and has not been visited
-        if (this->distance(node) != 0 && !node.visited) {
-            // Update the closest node if this node is closer
-            if (closest_node == nullptr || this->distance(node) < this->distance(*closest_node)) {
-                closest_node = &parent_model->SNodes()[node_index];
+    if (!parent_model) return nullptr;
+    const int len = static_cast<int>(node_indices.size());
+    for (int i = 0; i < len; ++i) {
+        if (node_indices[i] == this->index) {
+            // Check consecutive predecessor
+            if (i > 0) {
+                int prev_idx = node_indices[i - 1];
+                if (prev_idx >= 0 && prev_idx < static_cast<int>(parent_model->SNodes().size()) && prev_idx != this->index) {
+                    return &parent_model->SNodes()[prev_idx];
+                }
+            }
+            // Check consecutive successor
+            if (i + 1 < len) {
+                int next_idx = node_indices[i + 1];
+                if (next_idx >= 0 && next_idx < static_cast<int>(parent_model->SNodes().size()) && next_idx != this->index) {
+                    return &parent_model->SNodes()[next_idx];
+                }
             }
         }
     }
-    return closest_node;
+    return nullptr;
 }
 
 /**
  * Finds and populates the list of neighboring nodes.
+ * Connects immediate predecessor and successor nodes along each connected road way,
+ * establishing proper topological adjacency rather than arbitrary Euclidean proximity.
  */
 void RouteModel::Node::FindNeighbors() {
-    // Iterate over all roads connected to this node
-    for (const auto& road : parent_model->node_to_road[this->index]) {
-        // Find the closest neighbor from the nodes of the current road
-        RouteModel::Node* new_neighbor = this->FindNeighbor(parent_model->Ways()[road->way].nodes);
-        if (new_neighbor) {
-            // Add the neighbor to the list of neighbors
-            this->neighbors.emplace_back(new_neighbor);
+    if (!this->neighbors.empty()) {
+        return;  // Already populated; prevent duplicate edges on subsequent calls
+    }
+
+    if (!parent_model) {
+        return;
+    }
+
+    const auto it = parent_model->node_to_road.find(this->index);
+    if (it == parent_model->node_to_road.end()) {
+        return;
+    }
+
+    for (const auto* road : it->second) {
+        if (!road) continue;
+        const auto& way_nodes = parent_model->Ways()[road->way].nodes;
+        const int way_len = static_cast<int>(way_nodes.size());
+
+        for (int i = 0; i < way_len; ++i) {
+            if (way_nodes[i] == this->index) {
+                // Connect immediate predecessor along the road way
+                if (i > 0) {
+                    int prev_idx = way_nodes[i - 1];
+                    if (prev_idx >= 0 && prev_idx < static_cast<int>(parent_model->SNodes().size()) && prev_idx != this->index) {
+                        Node* prev_node = &parent_model->SNodes()[prev_idx];
+                        if (std::find(this->neighbors.begin(), this->neighbors.end(), prev_node) == this->neighbors.end()) {
+                            this->neighbors.push_back(prev_node);
+                        }
+                    }
+                }
+                // Connect immediate successor along the road way
+                if (i + 1 < way_len) {
+                    int next_idx = way_nodes[i + 1];
+                    if (next_idx >= 0 && next_idx < static_cast<int>(parent_model->SNodes().size()) && next_idx != this->index) {
+                        Node* next_node = &parent_model->SNodes()[next_idx];
+                        if (std::find(this->neighbors.begin(), this->neighbors.end(), next_node) == this->neighbors.end()) {
+                            this->neighbors.push_back(next_node);
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -87,11 +132,13 @@ RouteModel::Node& RouteModel::FindClosestNode(float x, float y) {
         if (road.type != Model::Road::Type::Footway) {
             // Iterate over all nodes in the current road
             for (int node_idx : Ways()[road.way].nodes) {
-                dist = input.distance(SNodes()[node_idx]);  // Calculate the distance
-                // Update the closest node if this node is closer
-                if (dist < min_dist) {
-                    closest_idx = node_idx;
-                    min_dist = dist;
+                if (node_idx >= 0 && node_idx < static_cast<int>(SNodes().size())) {
+                    dist = input.distance(SNodes()[node_idx]);  // Calculate the distance
+                    // Update the closest node if this node is closer
+                    if (dist < min_dist) {
+                        closest_idx = node_idx;
+                        min_dist = dist;
+                    }
                 }
             }
         }

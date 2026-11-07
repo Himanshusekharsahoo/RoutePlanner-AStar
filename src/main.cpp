@@ -87,10 +87,14 @@ int main(int argc, const char** argv) {
 
     // Create RoutePlanner object and perform A* search
     RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
-    route_planner.AStarSearch();
+    bool found = route_planner.AStarSearch();
 
-    // Display the distance of the calculated route
-    std::cout << "Distance: " << route_planner.GetDistance() << " meters." << std::endl;
+    // Display the results of the calculated route
+    if (found) {
+        std::cout << "Distance: " << route_planner.GetDistance() << " meters." << std::endl;
+    } else {
+        std::cout << "No route found between the specified coordinates." << std::endl;
+    }
 
     // Render the results of the search
     Render render{model};

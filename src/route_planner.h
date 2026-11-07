@@ -24,19 +24,22 @@ public:
 
     /**
      * Returns the total distance of the calculated path.
-     * @return The distance of the path.
+     * @return The distance of the path in meters.
      */
     float GetDistance() const { return distance; }
 
     /**
      * Performs the A* search algorithm to find the shortest path.
+     * @return True if a path was successfully found, false otherwise.
      */
-    void AStarSearch();
+    bool AStarSearch();
 
     // The following methods have been made public for testing purposes.
 
     /**
      * Adds neighboring nodes to the open list for exploration.
+     * Applies cost relaxation: updates a neighbor's g-value and parent if a cheaper
+     * route to that node is discovered.
      * @param current_node The current node being explored.
      */
     void AddNeighbors(RouteModel::Node* current_node);
@@ -50,6 +53,7 @@ public:
 
     /**
      * Constructs the final path from the start node to the end node.
+     * Safely traverses parent pointers with cycle detection and missing parent checks.
      * @param final_node The final node in the path.
      * @return A vector of nodes representing the path.
      */
@@ -57,14 +61,15 @@ public:
 
     /**
      * Selects the next node to explore from the open list.
+     * Marks the node as expanded (closed) upon selection.
      * @return A pointer to the next node.
      */
     RouteModel::Node* NextNode();
 
 private:
     std::vector<RouteModel::Node*> open_list;  // List of nodes to be explored
-    RouteModel::Node* start_node;  // The starting node
-    RouteModel::Node* end_node;  // The goal node
+    RouteModel::Node* start_node = nullptr;    // The starting node
+    RouteModel::Node* end_node = nullptr;      // The goal node
 
     float distance = 0.0f;  // Total distance of the calculated path
     RouteModel& m_Model;  // Reference to the RouteModel containing map data

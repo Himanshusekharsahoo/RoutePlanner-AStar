@@ -1,40 +1,64 @@
-# Ignore build files
-/build/
-/CMakeFiles/
+# Build directories and outputs
+build/
+build*/
+CMakeFiles/
 CMakeCache.txt
-Makefile
 cmake_install.cmake
+CMakeUserPresets.json
+CTestTestfile.cmake
+Testing/
+Makefile
 
-# Ignore compiled binaries
+# Compiled binaries, objects, and libraries
 *.exe
 *.out
+*.app
 *.o
 *.obj
 *.a
+*.lib
 *.so
+*.dylib
 *.dll
 
-# Ignore dependency manager files (vcpkg)
+# IDE and MSVC build artifact directories
+Debug/
+Release/
+x64/
+x86/
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.pdb
+*.ilk
+*.idb
+*.tlog
+*.lastbuildstate
+*.recipe
+
+# Dependency managers
 vcpkg_installed/
 *.vcpkg-root
 
-# Ignore OpenStreetMap data (optional, if you don’t want to track it)
-*.osm
-*.png  # If you generate rendered map images
-
-# Ignore logs and temporary files
+# Logs, caches, and temporary files
 *.log
 *.tmp
 *.swp
 *.swo
+*~
+.cache/
+.DS_Store
 
-# Ignore IDE files (VSCode, CLion, Xcode, etc.)
-.vscode/
-.idea/
-*.iml
-*.code-workspace
-*.DS_Store
-*.vs/
+# User-specific VS Code files (preserve tracked shared configurations)
+.vscode/*
+!.vscode/c_cpp_properties.json
+!.vscode/settings.json
+!.vscode/tasks.json
 
-# Ignore test framework (Google Test)
-thirdparty/googletest/
+# Explicitly ensure project assets and thirdparty dependencies are NOT ignored
+!map.osm
+!map.png
+!thirdparty/
+!thirdparty/**

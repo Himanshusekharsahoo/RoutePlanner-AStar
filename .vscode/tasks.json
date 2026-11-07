@@ -2,28 +2,46 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "CMake: Build All",
             "type": "shell",
-            "command": "g++",
+            "command": "cmake",
             "args": [
-                "-std=c++17",
-                "-o", "route_planner",
-                "src/main.cpp",
-                "src/model.cpp",
-                "src/route_model.cpp",
-                "src/route_planner.cpp",
-                "src/render.cpp",
-                "-IC:/Users/HP/Desktop/vcpkg/installed/x64-windows/include",
-                "-LC:/Users/HP/Desktop/vcpkg/installed/x64-windows/lib",
-                "-lio2d",
-                "-lcairo"
+                "--build",
+                "${workspaceFolder}/build"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": ["$gcc"],
-            "detail": "Generated task by VS Code"
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "CMake: Build Tests",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--target",
+                "route_planner_tests"
+            ],
+            "group": "build",
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "CMake: Run Tests (CTest)",
+            "type": "shell",
+            "command": "ctest",
+            "args": [
+                "--test-dir",
+                "${workspaceFolder}/build",
+                "--output-on-failure"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
         }
     ]
 }

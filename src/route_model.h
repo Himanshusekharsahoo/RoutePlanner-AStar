@@ -22,7 +22,7 @@ public:
     public:
         Node* parent = nullptr;  // Pointer to the parent node in the search tree
         float h_value = std::numeric_limits<float>::max();  // Heuristic value (estimated cost to goal)
-        float g_value = 0.0;  // Cost from the start node to this node
+        float g_value = std::numeric_limits<float>::max();  // Cost from the start node to this node (initialized to infinity)
         bool visited = false;  // Whether the node has been visited during the search
         std::vector<Node*> neighbors;  // List of neighboring nodes
 
